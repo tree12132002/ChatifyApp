@@ -1,6 +1,4 @@
-import dotenv from 'dotenv'
-
-dotenv.config()
+import { ENV } from '../src/libs/env.js'
 
 const requiredEnvVars = [
   'DB_DEV_USERNAME',
@@ -9,7 +7,7 @@ const requiredEnvVars = [
   'DB_DEV_HOST',
 ]
 
-const missingVars = requiredEnvVars.filter((v) => !process.env[v])
+const missingVars = requiredEnvVars.filter((v) => !ENV[v])
 
 if (missingVars.length > 0) {
   throw new Error(
@@ -19,24 +17,24 @@ if (missingVars.length > 0) {
 
 export default {
   development: {
-    username: process.env.DB_DEV_USERNAME,
-    password: process.env.DB_DEV_PASSWORD,
-    database: process.env.DB_DEV_DATABASE,
-    host: process.env.DB_DEV_HOST,
+    username: ENV.DB_DEV_USERNAME,
+    password: ENV.DB_DEV_PASSWORD,
+    database: ENV.DB_DEV_DATABASE,
+    host: ENV.DB_DEV_HOST,
     dialect: 'mysql',
   },
   test: {
-    username: process.env.DB_TEST_USERNAME,
-    password: process.env.DB_TEST_PASSWORD,
-    database: process.env.DB_TEST_DATABASE,
-    host: process.env.DB_TEST_HOST,
+    username: ENV.DB_TEST_USERNAME,
+    password: ENV.DB_TEST_PASSWORD,
+    database: ENV.DB_TEST_DATABASE,
+    host: ENV.DB_TEST_HOST,
     dialect: 'mysql',
   },
   production: {
-    username: process.env.DB_PROD_USERNAME,
-    password: process.env.DB_PROD_PASSWORD,
-    database: process.env.DB_PROD_DATABASE,
-    host: process.env.DB_PROD_HOST,
+    username: ENV.DB_PROD_USERNAME,
+    password: ENV.DB_PROD_PASSWORD,
+    database: ENV.DB_PROD_DATABASE,
+    host: ENV.DB_PROD_HOST,
     dialect: 'mysql',
   },
 }
