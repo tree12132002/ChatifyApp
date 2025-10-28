@@ -1,6 +1,8 @@
 import db from '../../models/index.js'
 import bcrypt from 'bcryptjs'
 import { generateToken } from '../libs/utils.js'
+import { sendWelcomeEmail } from '../emails/emailHandlers.js'
+import { ENV } from '../libs/env.js'
 
 const { User } = db
 
@@ -37,7 +39,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     })
 
-    await newUser.save()
+    const savedUser = await newUser.save()
     generateToken(newUser.id, res)
 
     res.status(201).json({
@@ -47,7 +49,15 @@ export const signup = async (req, res) => {
       profilePic: newUser.profilePic,
     })
 
-    // todo: send a welcome email to user
+    try {
+      await sendWelcomeEmail(
+        savedUser.email,
+        savedUser.fullName,
+        ENV.CLIENT_URL
+      )
+    } catch (error) {
+      console.error('Failed to send welcome email: ', error)
+    }
   } catch (error) {
     console.error('Error in signup controller: ', error)
     res.status(500).json({ message: 'Internal server error' })
