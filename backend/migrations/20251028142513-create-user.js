@@ -1,5 +1,10 @@
 'use strict'
-/** @type {import('sequelize-cli').Migration} */
+/**
+ * Create the `Users` table with id, email (unique), fullName, password, profilePic, createdAt, and updatedAt columns.
+ *
+ * @param {import('sequelize').QueryInterface} queryInterface - The interface used to perform schema changes.
+ * @param {typeof import('sequelize')} Sequelize - The Sequelize library/constructor used to reference data types.
+ */
 
 export async function up(queryInterface, Sequelize) {
   await queryInterface.createTable('Users', {
@@ -36,6 +41,9 @@ export async function up(queryInterface, Sequelize) {
     },
   })
 }
+/**
+ * Reverts the migration by dropping the 'Users' table.
+ */
 export async function down(queryInterface, Sequelize) {
   await queryInterface.dropTable('Users')
 }
