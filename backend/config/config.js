@@ -2,6 +2,21 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+const requiredEnvVars = [
+  'DB_DEV_USERNAME',
+  'DB_DEV_PASSWORD',
+  'DB_DEV_DATABASE',
+  'DB_DEV_HOST',
+]
+
+const missingVars = requiredEnvVars.filter((v) => !process.env[v])
+
+if (missingVars.length > 0) {
+  throw new Error(
+    `Missing required environment variables: ${missingVars.join(', ')}`
+  )
+}
+
 export default {
   development: {
     username: process.env.DB_DEV_USERNAME,

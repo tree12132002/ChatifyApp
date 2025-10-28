@@ -37,25 +37,19 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     })
 
-    if (newUser) {
-      generateToken(newUser.id, res)
-      await newUser.save()
+    await newUser.save()
+    generateToken(newUser.id, res)
 
-      res.status(201).json({
-        id: newUser.id,
-        fullName: newUser.fullName,
-        email: newUser.email,
-        profilePic: newUser.profilePic,
-      })
+    res.status(201).json({
+      id: newUser.id,
+      fullName: newUser.fullName,
+      email: newUser.email,
+      profilePic: newUser.profilePic,
+    })
 
-      // todo: send a welcome email to user
-    } else {
-      res.status(400).json({ message: 'Invalid user data' })
-    }
+    // todo: send a welcome email to user
   } catch (error) {
     console.error('Error in signup controller: ', error)
     res.status(500).json({ message: 'Internal server error' })
   }
-
-  res.send('Signup endpoint')
 }
