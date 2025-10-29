@@ -6,8 +6,11 @@ import {
   updateProfile
 } from '../controllers/auth.controller.js'
 import { protectRoute } from '../middlewares/auth.middleware.js'
+import { arcjectProtection } from '../middlewares/arcjet.middleware.js'
 
 const router = express.Router()
+
+router.use(arcjectProtection)
 
 router.post('/signup', signup)
 router.post('/login', login)
