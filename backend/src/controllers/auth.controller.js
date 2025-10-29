@@ -113,12 +113,30 @@ export const updateProfile = async (req, res) => {
     if (!profilePic)
       return res.status(400).json({ message: 'Profile pic is required' })
 
+    // Validate it's a data URL
+    if (!profilePic.startsWith('data:image/')) {
+      return res.status(400).json({ message: 'Invalid image format' })
+    }
+
+    // Optional: Check size (data URLs are base64, rough estimate)
+    const sizeInBytes = (profilePic.length * 3) / 4
+    const maxSize = 5 * 1024 * 1024 // 5MB
+
+    if (sizeInBytes > maxSize) {
+      return res.status(400).json({ message: 'Image too large (max 5MB)' })
+    }
+
     const userId = req.user.id
     const uploadResponse = await cloudinary.uploader.upload(profilePic)
-    const updatedUser = await User.update(
+
+    await User.update(
       { profilePic: uploadResponse.secure_url },
       { where: { id: userId } }
     )
+
+    const updatedUser = await User.findByPk(userId, {
+      attributes: { exclude: ['password'] }
+    })
 
     res.status(200).json(updatedUser)
   } catch (error) {
