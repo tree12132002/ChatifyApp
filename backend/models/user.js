@@ -18,26 +18,26 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { isEmail: true },
+        validate: { isEmail: true }
       },
       fullName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: { len: [6] },
+        validate: { len: [6] }
       },
       profilePic: {
         type: DataTypes.STRING,
-        defaultValue: null,
-      },
+        defaultValue: null
+      }
     },
     {
       sequelize,
       modelName: 'User',
-      tableName: 'Users',
+      tableName: 'Users'
     }
   )
   return User

@@ -28,7 +28,7 @@ if (config.use_env_variable) {
   )
 }
 
-const files = fs.readdirSync(__dirname).filter((file) => {
+const files = fs.readdirSync(__dirname).filter(file => {
   return (
     file.indexOf('.') !== 0 &&
     file !== basename &&
@@ -44,7 +44,7 @@ for (const file of files) {
   db[modelInstance.name] = modelInstance
 }
 
-Object.keys(db).forEach((modelName) => {
+Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db)
   }

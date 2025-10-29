@@ -7,33 +7,33 @@ export async function up(queryInterface, Sequelize) {
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: Sequelize.INTEGER,
+      type: Sequelize.INTEGER
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true,
+      unique: true
     },
     fullName: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
     profilePic: {
       type: Sequelize.STRING,
-      defaultValue: null,
+      defaultValue: null
     },
     createdAt: {
       allowNull: false,
-      type: Sequelize.DATE,
+      type: Sequelize.DATE
     },
     updatedAt: {
       allowNull: false,
-      type: Sequelize.DATE,
-    },
+      type: Sequelize.DATE
+    }
   })
 }
 export async function down(queryInterface, Sequelize) {
