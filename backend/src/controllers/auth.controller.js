@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { generateToken } from '../libs/utils.js'
 import { sendWelcomeEmail } from '../emails/emailHandlers.js'
 import { ENV } from '../libs/env.js'
+import cloudinary from '../libs/cloudinary.js'
 
 const { User } = db
 
@@ -36,7 +37,7 @@ export const signup = async (req, res) => {
     const newUser = new User({
       fullName,
       email,
-      password: hashedPassword,
+      password: hashedPassword
     })
 
     const savedUser = await newUser.save()
@@ -46,7 +47,7 @@ export const signup = async (req, res) => {
       id: newUser.id,
       fullName: newUser.fullName,
       email: newUser.email,
-      profilePic: newUser.profilePic,
+      profilePic: newUser.profilePic
     })
 
     try {
@@ -63,7 +64,6 @@ export const signup = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 }
-
 export const login = async (req, res) => {
   const { email, password } = req.body
 
@@ -90,20 +90,39 @@ export const login = async (req, res) => {
       id: user.id,
       fullName: user.fullName,
       email: user.email,
-      profilePic: user.profilePic,
+      profilePic: user.profilePic
     })
   } catch (error) {
     console.error('Error in login controller: ', error)
     res.status(500).json({ message: 'Internal server error' })
   }
 }
-
 export const logout = async (_, res) => {
   res.cookie('jwt', '', {
     maxAge: 0,
     httpOnly: true,
     sameSite: 'strict',
-    secure: ENV.NODE_ENV === 'development' ? false : true,
+    secure: ENV.NODE_ENV === 'development' ? false : true
   })
   res.status(200).json({ message: 'Logged out successfully' })
+}
+export const updateProfile = async (req, res) => {
+  const { profilePic } = req.body
+
+  try {
+    if (!profilePic)
+      return res.status(400).json({ message: 'Profile pic is required' })
+
+    const userId = req.user.id
+    const uploadResponse = await cloudinary.uploader.upload(profilePic)
+    const updatedUser = await User.update(
+      { profilePic: uploadResponse.secure_url },
+      { where: { id: userId } }
+    )
+
+    res.status(200).json(updatedUser)
+  } catch (error) {
+    console.error('Error in update profile: ', error)
+    res.status(500).json({ message: 'Internal server error' })
+  }
 }

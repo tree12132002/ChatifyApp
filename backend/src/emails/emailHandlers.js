@@ -6,7 +6,7 @@ export const sendWelcomeEmail = async (email, name, clientURL) => {
     from: `${sender.name} <${sender.email}>`,
     to: email,
     subject: 'Welcome to Chatify!',
-    html: createWelcomeEmailTemplate(name, clientURL),
+    html: createWelcomeEmailTemplate(name, clientURL)
   })
 
   if (error) {
