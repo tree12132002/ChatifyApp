@@ -1,5 +1,7 @@
-import db from '../../models/index.js'
 import { Op } from 'sequelize'
+import cloudinary from '../libs/cloudinary.js'
+
+import db from '../../models/index.js'
 
 const { Message, User } = db
 
@@ -51,6 +53,17 @@ export const sendMessage = async (req, res) => {
   let imageUrl
 
   try {
+    // Validate that message has content
+    if (!text && !image) {
+      return res.status(400).json({ message: 'Message must contain text or image' })
+    }
+    // Verify receiver exists
+    const receiver = await User.findByPk(receiverId)
+
+    if (!receiver) {
+      return res.status(404).json({ message: 'Receiver not found' })
+    }
+
     if (image) {
       // upload base64 image to cloudinary
       const uploadResponse = await cloudinary.uploader.upload(image)

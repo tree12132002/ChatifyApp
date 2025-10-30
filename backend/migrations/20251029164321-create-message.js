@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -10,12 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       senderId: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       receiverId: {
-        type: Sequelize.STRING,
-        allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       text: {
         type: Sequelize.STRING
@@ -31,9 +43,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Messages');
+    await queryInterface.dropTable('Messages')
   }
-};
+}

@@ -10,24 +10,29 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Message.belongsTo(models.User, { foreignKey: 'senderId', as: 'Sender' })
+      Message.belongsTo(models.User, {
+        foreignKey: 'receiverId',
+        as: 'Receiver'
+      })
     }
   }
   Message.init(
     {
       senderId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false
       },
       receiverId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false
       },
       text: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        validate: { len: [0, 2000] }
       },
       image: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING
       }
     },
     {
