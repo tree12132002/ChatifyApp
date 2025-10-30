@@ -1,5 +1,6 @@
-import db from '../../models/index.js'
 import bcrypt from 'bcryptjs'
+
+import db from '../../models/index.js'
 import { generateToken } from '../libs/utils.js'
 import { sendWelcomeEmail } from '../emails/emailHandlers.js'
 import { ENV } from '../libs/env.js'
