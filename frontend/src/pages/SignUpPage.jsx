@@ -9,6 +9,7 @@ import {
   UserIcon
 } from 'lucide-react'
 import { Link } from 'react-router'
+import toast from 'react-hot-toast'
 
 function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,20 @@ function SignUpPage() {
 
   const handleSubmit = e => {
     e.preventDefault()
+
+    if (
+      !formData.fullName.trim() ||
+      !formData.email.trim() ||
+      !formData.password.trim()
+    ) {
+      toast.error('All fields are required')
+      return
+    }
+
+    if (formData.password.length < 6) {
+      toast.error('Password must be at least 6 characters ')
+      return
+    }
 
     signup(formData)
   }
@@ -45,12 +60,14 @@ function SignUpPage() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* FULL NAME */}
                   <div>
-                    <label htmlFor="" className="auth-input-label">
+                    <label htmlFor="fullName" className="auth-input-label">
                       Full Name
                     </label>
                     <div className="relative">
                       <UserIcon className="auth-input-icon" />
                       <input
+                        id="fullName"
+                        required
                         type="text"
                         value={formData.fullName}
                         onChange={e =>
@@ -64,12 +81,14 @@ function SignUpPage() {
 
                   {/* EMAIL INPUT */}
                   <div>
-                    <label htmlFor="" className="auth-input-label">
+                    <label htmlFor="email" className="auth-input-label">
                       Email
                     </label>
                     <div className="relative">
                       <MailIcon className="auth-input-icon" />
                       <input
+                        id="email"
+                        required
                         type="email"
                         value={formData.email}
                         onChange={e =>
@@ -83,12 +102,14 @@ function SignUpPage() {
 
                   {/* PASSWORD INPUT */}
                   <div>
-                    <label htmlFor="" className="auth-input-label">
+                    <label htmlFor="password" className="auth-input-label">
                       Password
                     </label>
                     <div className="relative">
                       <LockIcon className="auth-input-icon" />
                       <input
+                        id="password"
+                        required
                         type="password"
                         value={formData.password}
                         onChange={e =>
