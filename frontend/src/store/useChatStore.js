@@ -6,7 +6,7 @@ export const useChatStore = create((set, get) => ({
   allContacts: [],
   chats: [],
   messages: [],
-  activeTabs: 'chats',
+  activeTab: 'chats',
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
@@ -16,7 +16,7 @@ export const useChatStore = create((set, get) => ({
     localStorage.setItem('isSoundEnabled', !get().isSoundEnabled)
     set({ isSoundEnabled: !get().isSoundEnabled })
   },
-  setActiveTab: tab => set({ activeTabs: tab }),
+  setActiveTab: tab => set({ activeTab: tab }),
   setSelectedUser: user => set({ selectedUser: user }),
 
   getAllContacts: async () => {
@@ -36,7 +36,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
   getMyChatPartners: async () => {
-    set({ isUsersLoading: true })
+    set({ isMessagesLoading: true })
 
     try {
       const res = await axiosInstance.post('/messages/chats')
@@ -48,7 +48,7 @@ export const useChatStore = create((set, get) => ({
           'An error occurred while fetching chats'
       )
     } finally {
-      set({ isUsersLoading: false })
+      set({ isMessagesLoading: false })
     }
   }
 }))
