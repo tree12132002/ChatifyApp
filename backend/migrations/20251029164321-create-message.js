@@ -1,51 +1,50 @@
 'use strict'
 /** @type {import('sequelize-cli').Migration} */
-module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Messages', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER
+
+export async function up(queryInterface, Sequelize) {
+  await queryInterface.createTable('Messages', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: Sequelize.INTEGER
+    },
+    senderId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
       },
-      senderId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    },
+    receiverId: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Users',
+        key: 'id'
       },
-      receiverId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      text: {
-        type: Sequelize.STRING
-      },
-      image: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
-    })
-  },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Messages')
-  }
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    },
+    text: {
+      type: Sequelize.STRING
+    },
+    image: {
+      type: Sequelize.STRING
+    },
+    createdAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    },
+    updatedAt: {
+      allowNull: false,
+      type: Sequelize.DATE
+    }
+  })
+}
+export async function down(queryInterface, Sequelize) {
+  await queryInterface.dropTable('Messages')
 }
