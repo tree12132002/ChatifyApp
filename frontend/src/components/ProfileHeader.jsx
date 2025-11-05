@@ -2,8 +2,7 @@ import { useState, useRef } from 'react'
 import { LogOutIcon, VolumeOffIcon, Volume2Icon } from 'lucide-react'
 import { useAuthStore } from '../store/useAuthStore'
 import { useChatStore } from '../store/useChatStore'
-
-const mouseClickSound = new Audio('/sounds/mouse-click.mp3')
+import toast from 'react-hot-toast'
 
 const ProfileHeader = () => {
   const { logout, authUser, updateProfile } = useAuthStore()
@@ -11,11 +10,32 @@ const ProfileHeader = () => {
   const [selectedImg, setSelectedImg] = useState(null)
 
   const fileInputRef = useRef(null)
+  const audioRef = useRef(null)
+
+  const getAudio = () => {
+    if (!audioRef.current) {
+      audioRef.current = new Audio('/sounds/mouse-click.mp3')
+    }
+
+    return audioRef.current
+  }
 
   const handleImageUpload = e => {
     const file = e.target.files[0]
 
     if (!file) return
+
+    // Validate file type
+    if (!file.type.startWith('image/')) {
+      toast.error('Please select an image file')
+    }
+    // Validate file size (e.g., 5MB limit)
+    const MAX_SIZE = 5 * 1024 * 1024
+
+    if (file.size > MAX_SIZE) {
+      toast.error('Image size must be less than 5MB')
+      return
+    }
 
     const reader = new FileReader()
 
@@ -82,8 +102,10 @@ const ProfileHeader = () => {
             className="text-slate-400 hover:text-slate-200 transition-colors"
             onClick={() => {
               // play click sound before toggling
-              mouseClickSound.currentTime = 0 //reset to start
-              mouseClickSound
+              const audio = getAudio()
+
+              audio.currentTime = 0
+              audio
                 .play()
                 .catch(error => console.error('Audio play failed: ', error))
               toggleSound()

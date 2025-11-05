@@ -15,8 +15,8 @@ const router = express.Router()
 // this is actually more efficient since unauthenticated requests get blocked by rating limiting before hitting the auth middleware
 router.use(arcjectProtection, protectRoute)
 
-router.post('/contacts', getAllContacts)
-router.post('/chats', getChatPartners)
+router.get('/contacts', getAllContacts)
+router.get('/chats', getChatPartners)
 router.get('/:id', getMessagesByUserId)
 router.post('/send/:id', sendMessage)
 

@@ -4,21 +4,22 @@ import UserLoadingSkeleton from './UsersLoadingSkeleton'
 import NoChatsFound from './NoChatsFound'
 
 const ContactList = () => {
-  const { getAllContacts, allContacts, isUsersLoading, setSelectedUser } =
+  const { getAllContacts, allContacts, isMessagesLoading, setSelectedUser } =
     useChatStore()
 
   useEffect(() => {
     getAllContacts()
-  }, [getAllContacts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  if (isUsersLoading) return <UserLoadingSkeleton />
+  if (isMessagesLoading) return <UserLoadingSkeleton />
   if (allContacts.length === 0) return <NoChatsFound />
 
   return (
     <>
       {allContacts.map(contact => (
         <div
-          key={contact.Id}
+          key={contact.id}
           className="bg-cyan-500/10 p-4 rounded-lg cursor-pointer hover:bg-cyan-500/20 transition-colors"
           onClick={() => setSelectedUser(contact)}
         >
