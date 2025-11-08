@@ -36,7 +36,7 @@ export const useChatStore = create((set, get) => ({
     }
   },
   getMyChatPartners: async () => {
-    set({ isMessagesLoading: true })
+    set({ isUsersLoading: true })
 
     try {
       const res = await axiosInstance.get('/messages/chats')
@@ -48,7 +48,7 @@ export const useChatStore = create((set, get) => ({
           'An error occurred while fetching chats'
       )
     } finally {
-      set({ isMessagesLoading: false })
+      set({ isUsersLoading: false })
     }
   },
   getMessagesByUserId: async userId => {

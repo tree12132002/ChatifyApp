@@ -21,7 +21,7 @@ const NoChatHistoryPlaceholder = ({ name }) => {
           👋 Say Hello
         </button>
         <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
-          🤝 How are your?
+          🤝 How are you?
         </button>
         <button className="px-4 py-2 text-xs font-medium text-cyan-400 bg-cyan-500/10 rounded-full hover:bg-cyan-500/20 transition-colors">
           📅 Meet up soon?
