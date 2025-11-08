@@ -4,7 +4,7 @@ import UserLoadingSkeleton from './UsersLoadingSkeleton'
 import NoChatsFound from './NoChatsFound'
 
 const ContactList = () => {
-  const { getAllContacts, allContacts, isMessagesLoading, setSelectedUser } =
+  const { getAllContacts, allContacts, isUsersLoading, setSelectedUser } =
     useChatStore()
 
   useEffect(() => {
@@ -12,7 +12,7 @@ const ContactList = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (isMessagesLoading) return <UserLoadingSkeleton />
+  if (isUsersLoading) return <UserLoadingSkeleton />
   if (allContacts.length === 0) return <NoChatsFound />
 
   return (
