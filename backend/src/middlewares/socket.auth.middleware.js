@@ -4,7 +4,7 @@ import { ENV } from '../libs/env.js'
 
 const { User } = db
 
-export const socketAuthMiddleware = async (socketAuthMiddleware, next) => {
+export const socketAuthMiddleware = async (socket, next) => {
   try {
     // extract token from http-only cookies
     const token = socket.handshake.headers.cookie

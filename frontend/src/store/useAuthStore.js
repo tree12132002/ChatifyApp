@@ -91,8 +91,9 @@ export const useAuthStore = create((set, get) => ({
   },
   connectSocket: () => {
     const { authUser } = get()
+    const existingSocket = get().socket
 
-    if (!authUser || get().socket.connected) return
+    if (!authUser || existingSocket?.connected) return
 
     const socket = io(BASE_URL, {
       withCredentials: true // this ensures cookies are sent with the connection
@@ -107,6 +108,11 @@ export const useAuthStore = create((set, get) => ({
     })
   },
   disconnectSocket: () => {
-    if (get().socket.connected) get().socket.disconnect()
+    const socket = get().socket
+
+    if (!socket) return
+
+    socket.disconnect()
+    set({ socket: null, onlineUsers: [] })
   }
 }))
