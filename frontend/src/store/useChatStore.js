@@ -84,7 +84,7 @@ export const useChatStore = create((set, get) => ({
       isOptimistic: true //flag to identify optimistic messages (optional)
     }
 
-    // immediately update th ui by adding the message
+    // immediately update the ui by adding the message
     set({ messages: [...messages, optimisticMessage] })
 
     try {
@@ -93,7 +93,10 @@ export const useChatStore = create((set, get) => ({
         messageData
       )
 
-      set({ messages: messages.concat(res.data) })
+      // Replace optimistic message with server response
+      set({
+        messages: messages.map(msg => (msg.id === tempId ? res.data : msg))
+      })
     } catch (error) {
       // remove optimistic message on failure
       set({ messages })

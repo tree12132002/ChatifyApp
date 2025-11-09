@@ -24,10 +24,14 @@ const MessageInput = () => {
   }
   const handleImageChange = e => {
     const file = e.target.files[0]
+    const MAX_SIZE = 5 * 1024 * 1024
 
     if (!file.type.startsWith('image/')) {
       toast.error('Please select an image file')
-
+      return
+    }
+    if (file.size > MAX_SIZE) {
+      toast.error('Image size must be less than 5MB')
       return
     }
 
@@ -96,7 +100,7 @@ const MessageInput = () => {
         <button
           type="submit"
           disabled={!text.trim() && !imagePreview}
-          className="bg-linear-to-r from-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-linear-to-r from-cyan-500 to-cyan-600 text-white rounded-lg px-4 py-2 font-medium hover:from-cyan-600 hover:to-cyan-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <SendIcon className="w-5 h-5" />
         </button>

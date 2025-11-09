@@ -3,7 +3,7 @@ import { MessageCircleIcon } from 'lucide-react'
 const NoChatHistoryPlaceholder = ({ name }) => {
   return (
     <div className="flex flex-col items-center justify-center h-full text-center p-6">
-      <div className="w-16 h-16 bg-linear-to-br from-cyan-500/20 to-cyan-400/10 rounded-full flex items-center justify-center mb-5">
+      <div className="w-16 h-16 bg-linear-to-r from-cyan-500/20 to-cyan-400/10 rounded-full flex items-center justify-center mb-5">
         <MessageCircleIcon className="size-8 text-cyan-400" />
       </div>
       <h3 className="text-lg font-medium text-slate-200 mb-3">
